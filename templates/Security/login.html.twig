@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Log in | 
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <section class="container-fluid mt-4">
+        <form action="{{ path('login') }}" method="POST" class="card mx-auto w-50 p-3">
+
+            <h1 class="title text-center">Log in</h1>
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <label for="username" class="form-label">Email:</label>
+            <input type="text" id="username" class="form-control" name="_username" value="{{ lastUsername }}"/>
+
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" class="form-control" name="_password"/>
+
+            <div class="d-grip gaap-2 d-md-block mt-4 text-center">
+                <button type="submit" class="btn btn-primary">Log in</button>
+            </div>
+
+        </form>
+    </section>
+{% endblock %}
