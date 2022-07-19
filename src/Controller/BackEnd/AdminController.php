@@ -59,6 +59,11 @@ class AdminController extends AbstractController
     {
         $article = $this->repoArticle->find($id);
 
+        if (!$article) {
+            $this->addFlash('error', 'Article not found');
+            return $this->redirectToRoute('admin');
+        }
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -69,7 +74,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin');
         }
 
-        return $this->render('BackEnd/Article/create.html.twig', [
+        return $this->render('BackEnd/Article/update.html.twig', [
             'form' => $form->createView(),
         ]);
     }

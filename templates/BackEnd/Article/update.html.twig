@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modify article |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<section class="container-fluid mt-4">
+		<div class="card mx-auto w-50 mt-4">
+			<div class="card-header">
+				<h1 class="text-center">Modify this article</h1>
+			</div>
+			<div class="card-body">
+				{{ form_start(form)}}
+
+                    {{ form_widget(form.title, {'attr': {'class': 'mb-4', 'placeholder': 'Subject of your article...'}}) }}
+                    {{ form_widget(form.content, {'attr': {'class': 'mb-4', 'placeholder': 'Content...', 'rows': 10}}) }}
+
+			</div>
+			<div class="card-footer text-center">
+                <button type="submit" class="btn btn-secondary mt-2 mb-2">Modify</button>
+                {{ form_end(form)  }}
+            </div>
+		</div>
+	</section>
+{% endblock %}
