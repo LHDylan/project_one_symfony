@@ -25,7 +25,13 @@ class AdminController extends AbstractController
         $this->repoArticle = $repoArticle;
     }
 
-    #[Route('/article', name: 'admin')]
+    #[Route('/', name: 'admin')]
+    public function dashboard()
+    {
+        return $this->render('Backend/index.html.twig',);
+    }
+
+    #[Route('/article', name: 'admin.article')]
     public function adminListArticle()
     {
         $articles = $this->repoArticle->findAll();
