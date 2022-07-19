@@ -51,12 +51,12 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin');
         }
 
-        return $this->render('BackEnd/Article/create.html.twig', [
+        return $this->render('BackEnd/Article/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/article/modify/{id}-{slug}', name: 'admin.article.update')]
+    #[Route('/article/modify/{id}-{slug}', name: 'admin.article.edit')]
     public function modifyArticle(int $id, string $slug, Request $request): Response
     {
         $article = $this->repoArticle->find($id);
@@ -76,7 +76,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin');
         }
 
-        return $this->render('BackEnd/Article/update.html.twig', [
+        return $this->render('BackEnd/Article/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

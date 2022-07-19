@@ -10,3 +10,6 @@ import "./styles/main.scss";
 
 // start the Stimulus application
 import "./bootstrap";
+
+// import Fontawesome
+import "@fortawesome/fontawesome-svg-core";
