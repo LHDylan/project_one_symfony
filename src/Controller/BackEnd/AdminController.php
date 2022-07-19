@@ -78,4 +78,19 @@ class AdminController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/article/delete/{id}', name: 'admin.article.delete', methods: 'DELETE|POST')]
+    public function deleteArticle(int $id, Article $article, Request $request)
+    {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->get('_token'))) {
+            $this->emi->remove($article);
+            $this->emi->flush();
+            $this->addFlash('success', 'Article deleted successfully.');
+
+            return $this->redirectToRoute('admin');
+        }
+
+        $this->addFlash('error', 'Token expired.');
+        return $this->redirectToRoute('admin');
+    }
 }
