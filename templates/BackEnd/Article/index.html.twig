@@ -21,6 +21,8 @@
                             <h2 class="blog-card-content-header">{{ article.title}}</h2>
                             <p>{{ article.content}}</p>
                             <p>{{ article.createdAt|format_datetime('full', 'none')}}</p>
+                            <p class="text-muted mt-2">{{ article.user.fName }} {{ article.user.lName }}</p>
+                            
                             <div class="row mt-2">
                                 <div class="col-md-6">
                                     <a href="{{ path('admin.article.update', {'id': article.id, 'slug': article.slug}) }}" class="btn btn-secondary">Modify</a>
