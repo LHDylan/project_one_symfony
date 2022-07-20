@@ -36,16 +36,17 @@ class UserType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'mapped' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Complete field'
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Password should be at least {{ limit }} characters',
-                        'max' => 100
-                    ])
-                ]
+                'required' => false
+                // 'constraints' => [
+                //     new NotBlank([
+                //         'message' => 'Complete field'
+                //     ]),
+                //     new Length([
+                //         'min' => 6,
+                //         'minMessage' => 'Password should be at least {{ limit }} characters',
+                //         'max' => 100
+                //     ])
+                // ]
             ])
             ->add('fName', TextType::class, [
                 'label' => 'First name:',
