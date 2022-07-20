@@ -14,13 +14,19 @@
             {% for article in articles %}
                 <div class="col-md-4">
                     <div class="blog-card">
-                        <div class="blog-card-image">
-                            <img src="https://fakeimg.pl/200x100" alt="">
-                        </div>
+                        {% if article.imageName %}
+                            <div class="blog-card-image">
+                                <img src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.title }}">    
+                            </div>
+                        {% else %}
+                            <div class="blog-card-image">
+                                <img src="https://fakeimg.pl/200x100" alt="">
+                            </div>
+                        {% endif %}
                         <div class="blog-card-content">
                             <h2 class="blog-card-content-header">{{ article.title}}</h2>
-                            <p>{{ article.content}}</p>
-                            <p>{{ article.createdAt|format_datetime('full', 'none')}}</p>
+                            <p class="blog-card-content-description">{{ article.content|striptags|slice(0, 150) ~ '...' }}</p>
+                            <p><i class="far fa-calendar-alt"></i> {{ article.createdAt|format_datetime('full', 'none')}}</p>
                             {% if article.user is not null %}
                                 <p class="text-muted mt-2">{{ article.user.fName }} {{ article.user.lName }}</p>
                             {% endif %}
