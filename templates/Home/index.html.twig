@@ -1,12 +1,44 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-    Home Page |
-    {{ parent() }}
+	Home Page |
+	{{ parent() }}
 {% endblock %}
 
 {% block body %}
-    <h1>Home Page</h1>
-    {# {{ dump(data) }} #}
-
+    <div id="banner">
+        <h1 class="banner-head">Home Page</h1>
+    </div>
+	<section class="container mt-4">
+		<div class="row mt-4">
+			{% for article in articles %}
+				<div class="col-md-4">
+					<div class="blog-card">
+						{% if article.imageName %}
+							<div class="blog-card-image">
+                                <a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}">
+                                    <img src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.title }}">
+                                </a>
+							</div>
+						{% else %}
+							<div class="blog-card-image">
+								<a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}"><img src="https://fakeimg.pl/200x100" alt=""></a>
+							</div>
+						{% endif %}
+						<div class="blog-card-content">
+							<a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}"><h2 class="blog-card-content-header">{{ article.title}}</h2></a>
+							<p class="blog-card-content-description">{{ article.content|striptags|slice(0, 150) ~ '...' }}</p>
+							<p>
+								<i class="far fa-calendar-alt"></i>
+								{{ article.createdAt|format_datetime('full', 'none')}}</p>
+							{% if article.user is not null %}
+								<p class="text-muted mt-2">{{ article.user.fName }}
+									{{ article.user.lName }}</p>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
 {% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ article.title}}
+	|
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+	<section>
+		{% if article.imageName %}
+			<div class="article-banner" id="banner" style="background-image: url({{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.title }}">
+				<h1 class="banner-head">{{article.title}}</h1>
+			</div>
+		{% else %}
+			<div class="article-banner" id="banner">
+				<h1 class="banner-head">{{article.title}}</h1>
+			</div>
+		{% endif %}
+	</section>
+
+	<section class="container mt-4">
+
+		<div class="article-main-content">
+
+			<aside class="article-sidebar">
+				<h2>Information :</h2>
+
+				<p class="mt-4">
+					<i class="far fa-calendar-alt"></i>
+					<strong>Posted on :</strong> {{ article.createdAt|format_datetime('full', 'none')}}
+				</p>
+
+				<p class="mt-4">
+				<i class="far fa-user-circle"></i>
+					<strong>author :</strong> {{ article.user.fName}} {{ article.user.lName}}
+				</p>
+
+				<h2>Tags :</h2>
+
+				{% if article.tags|length > 0 %}
+					<div class="article-tags">
+						{% for tag in article.tags %}
+							<p class="tag mt-4">
+							<i class="fas fa-tag"></i>
+							{{ tag.title }}</p>
+						{% endfor %}
+					</div>	
+				{% endif %}
+
+			</aside>
+
+			<article class="article-content">
+				{{ article.content|raw }}
+			</article>
+
+		</div>
+
+	</section>
+{% endblock %}
