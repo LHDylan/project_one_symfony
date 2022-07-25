@@ -32,8 +32,21 @@
 								<i class="far fa-calendar-alt"></i>
 								{{ article.createdAt|format_datetime('full', 'none')}}</p>
 							{% if article.user is not null %}
-								<p class="text-muted mt-2">{{ article.user.fName }}
-									{{ article.user.lName }}</p>
+								<div class="author">
+									{% if article.user.imageName %}
+										<div class="avatar">
+											<img src="{{ vich_uploader_asset(article.user, 'imageFile') }}" alt="{{ article.user.fName }}">
+										</div>
+									{% else %}
+										<div class="avatar">
+											<i class="far fa-user-circle"></i>
+										</div>
+									{% endif %}
+									<p class="text-muted mt-2">
+										{{ article.user.fName }}
+										{{ article.user.lName }}
+									</p>
+								</div>
 							{% endif %}
 						</div>
 					</div>

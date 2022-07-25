@@ -12,6 +12,10 @@
                 <td>{{ user.id }}</td>
             </tr>
             <tr>
+                <th>Photo</th>
+                <td style="background-image: url({{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.imageName }}">{{ user.imageName }}</td>
+            </tr>
+            <tr>
                 <th>Email</th>
                 <td>{{ user.email }}</td>
             </tr>

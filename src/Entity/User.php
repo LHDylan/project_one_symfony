@@ -2,15 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -47,6 +51,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
     private Collection $articles;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     */
+    #[Vich\UploadableField(mapping: 'users_image', fileNameProperty: 'imageName', size: 'imageSize')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageName = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $ImageSize = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $imageUpdatedAt = null;
 
     public function __construct()
     {
@@ -209,6 +228,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $article->setUser(null);
             }
         }
+
+        return $this;
+    }
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->imageUpdatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): self
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getImageSize(): ?int
+    {
+        return $this->ImageSize;
+    }
+
+    public function setImageSize(?int $ImageSize): self
+    {
+        $this->ImageSize = $ImageSize;
+
+        return $this;
+    }
+
+    public function getImageUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->imageUpdatedAt;
+    }
+
+    public function setImageUpdatedAt(?\DateTimeInterface $imageUpdatedAt): self
+    {
+        $this->imageUpdatedAt = $imageUpdatedAt;
 
         return $this;
     }
