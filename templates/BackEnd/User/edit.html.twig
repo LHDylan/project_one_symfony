@@ -3,6 +3,16 @@
 {% block title %}Edit User
 {% endblock %}
 
+{% block stylesheets %}
+    {{ encore_entry_link_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
 	<h1>Edit User</h1>
 

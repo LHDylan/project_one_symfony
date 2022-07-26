@@ -3,9 +3,12 @@
 namespace App\Controller\BackEnd;
 
 use App\Entity\Article;
+use App\Entity\Comments;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Builder\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,14 +18,12 @@ use Symfony\Component\Security\Core\Security;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
-    private $emi;
 
-    private $repoArticle;
-
-    public function __construct(EntityManagerInterface $emi, ArticleRepository $repoArticle)
-    {
-        $this->emi = $emi;
-        $this->repoArticle = $repoArticle;
+    public function __construct(
+        private EntityManagerInterface $emi,
+        private ArticleRepository $repoArticle,
+        private CommentsRepository $commentsRepo,
+    ) {
     }
 
     #[Route('/', name: 'admin')]
@@ -100,5 +101,36 @@ class AdminController extends AbstractController
 
         $this->addFlash('error', 'Token expired.');
         return $this->redirectToRoute('admin');
+    }
+
+    #[Route("/articles/{id}-{slug}/comments", name: "admin.article.comments")]
+    public function adminComments(int $id, string $slug)
+    {
+        $comments = $this->commentsRepo->findByArticle($id, $slug);
+
+        if (!$comments) {
+            $this->addFlash('error', 'no comments found');
+            return $this->redirectToRoute('admin');
+        }
+
+        return $this->render('BackEnd/article/comments.html.twig', [
+            'comments' => $comments
+        ]);
+    }
+
+    #[Route("/comments/switch/{id}", name: "admin.comments.switch", methods: ['GET'])]
+    public function switchVisibilityComment(int $id)
+    {
+        $comment = $this->commentsRepo->find($id);
+
+        if ($comment) {
+            $comment->isActive() ? $comment->setActive(false) : $comment->setActive(true);
+            $this->emi->persist($comment);
+            $this->emi->flush();
+
+            return new Response('Visibility changed', 201);
+        }
+
+        return new Response('Comment not found', 404);
     }
 }

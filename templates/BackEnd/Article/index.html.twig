@@ -5,6 +5,16 @@
     {{ parent() }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ encore_entry_link_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
     <section class="container mt-4">
         <div>
@@ -31,14 +41,19 @@
                                 <p class="text-muted mt-2">{{ article.user.fName }} {{ article.user.lName }}</p>
                             {% endif %}
                             <div class="row mt-2">
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <a href="{{ path('admin.article.edit', {'id': article.id, 'slug': article.slug}) }}" class="btn btn-secondary">Modify</a>
                                 </div>
-                                <div class="col-md-6">
+                                {% if article.comments|length > 0 %}
+                                    <div class="col-md-4">
+                                        <a href="{{ path('admin.article.comments', {'id': article.id, 'slug': article.slug }) }}" class="btn btn-secondary">Comments</a>
+                                    </div>
+                                {% endif %}
+                                <div class="col-md-5 text-end">
                                     <form method="POST" action="{{ path('admin.article.delete', {'id': article.id}) }}" onsubmit="return confirm('Are you sure?')">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
-                                        <button class="btn btn-primary">(╯°□°）╯︵ 🎁 <i class="far fa-trash-alt"></i></button>                                       
+                                        <button class="btn btn-primary">(╯°□°）╯︵<i class="far fa-trash-alt"></i></button>                                       
                                     </form>
                                 </div>
                             </div>
