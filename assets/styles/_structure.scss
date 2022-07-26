@@ -19,8 +19,6 @@ body {
 }
 
 p,
-tr th,
-td,
 h1,
 h2,
 h3,
@@ -29,6 +27,14 @@ h5,
 h6 {
     margin-bottom: 0px;
 }
+
+table,
+tr,
+th,
+td {
+    color: $white;
+}
+
 
 h1 {
     font-size: 35px;

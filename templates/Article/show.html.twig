@@ -20,7 +20,7 @@
 		{% endif %}
 	</section>
 
-	<section class="container mt-4">
+	<section class="container mt-4 pb-4 border-bottom">
 
 		<div class="article-main-content">
 
@@ -57,5 +57,59 @@
 
 		</div>
 
+	</section>
+
+	<section class="container mt-4 pb-4 border-bottom">
+		<div class="comments w-50 mx-auto mt-4">
+			<h2>Leave a comment !</h2>
+			{% if is_granted('ROLE_USER') %}
+				{% include 'BackEnd/article/_comment_form.html.twig' with {button_label: 'post'} %}
+			{% else %}
+				<div class="alert alert-info">
+					<p>
+						<b>Warning!</b>
+						<br/>
+						<a href="{{path('login')}}">You need to be logged to post a comment owo</a>
+					</p>
+				</div>
+			{% endif %}
+		</div>
+	</section>
+
+	<section class="container">
+		<div class="comments-listed">
+			{% if comments|length > 0 %}
+				
+				{% for comment in comments %}
+					<div class="comment border-bottom">
+						<div class="comment-header text-center">
+							<p class="mt-4">
+								{{comment.user.fName}}
+								{{comment.user.lName}}
+							</p>
+							<div class="rating mt-4">
+								{% for number in range(1, 5) %}
+									{% if number <= comment.note %}
+										<i class="fas fa-star rating-color"></i>
+									{% else %}
+										<i class="far fa-star rating-color"></i>
+									{% endif %}
+								{% endfor %}
+							</div>
+							<p class="mt-4">
+								<i class="far fa-calendar-alt"></i>
+								<small> Posted {{ comment.createdAt|ago}}</small>
+							</p>
+						</div>
+
+						<div class="comment-content mb-4">
+							<h3 class="mt-4">{{ comment.title }}</h3>
+							<p class="mt-4">{{ comment.content }}</p>
+						</div>
+					</div>
+				{% endfor %}
+
+			{% endif %}
+		</div>
 	</section>
 {% endblock %}

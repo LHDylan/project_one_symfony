@@ -1,0 +1,9 @@
+{{ form_start(form)}}
+    {{ form_row(form.note) }}
+    {{ form_widget(form.title, {'attr' : {'class' : 'mt-4', 'placeholder' : 'Title...'}}) }}
+    {{ form_widget(form.content, {'attr' : {'class' : 'mt-4', 'placeholder' : 'Content...', 'rows' : 5}}) }}
+    {{ form_row(form.rgpd) }}
+    <div class="text-center">
+        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    </div>
+{{ form_end(form)}}
