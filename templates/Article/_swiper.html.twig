@@ -1,0 +1,18 @@
+<!-- Slider main container -->
+<div class="swiper-image">
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
+    <!-- Slides -->
+    {% for image in article.articleImages %}
+        <div class="swiper-slide">
+            <img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ article.title }}" class="img">
+        </div>    
+    {% endfor %}
+  </div>
+  <!-- If we need pagination -->
+  <div class="swiper-pagination"></div>
+  <div class="swiper-head">
+    <h1>{{article.title}}</h1>
+  </div>
+  
+</div>

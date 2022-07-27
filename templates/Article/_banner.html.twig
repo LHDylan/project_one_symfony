@@ -1,0 +1,7 @@
+	<section>
+		{% for image in article.articleImages|slice(0,1) %}
+			<div class="article-banner" id="banner" style="background-image: url({{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ article.title }}">
+				<h1 class="banner-head">{{article.title}}</h1>
+			</div>
+		{% endfor %}
+	</section>

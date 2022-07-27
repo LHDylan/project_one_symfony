@@ -23,6 +23,7 @@
         "axios": "^0.27.2",
         "ckeditor4": "^4.19.1",
         "fontawesome-free": "^1.0.4",
-        "jquery": "^3.6.0"
+        "jquery": "^3.6.0",
+        "swiper": "^8.3.2"
     }
 }

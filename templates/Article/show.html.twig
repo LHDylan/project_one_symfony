@@ -18,17 +18,15 @@
 
 {% block body %}
 
-	<section>
-		{% for image in article.articleImages|slice(0,1) %}
-			<div class="article-banner" id="banner" style="background-image: url({{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ article.title }}">
-				<h1 class="banner-head">{{article.title}}</h1>
-			</div>
-		{% else %}
-			<div class="article-banner" id="banner">
-				<h1 class="banner-head">{{article.title}}</h1>
-			</div>
-		{% endfor %}
-	</section>
+	{% if article.articleImages|length > 1 %}
+		{% include "Article/_swiper.html.twig" %}
+	{% elseif article.articleImages|length == 1 %}
+		{% include "Article/_banner.html.twig" %}
+	{% else %}
+		<div class="row text-center mt-4">
+			<h1>{{article.title}}</h1>
+		</div>
+	{% endif %}
 
 	<section class="container mt-4 pb-4 border-bottom">
 
