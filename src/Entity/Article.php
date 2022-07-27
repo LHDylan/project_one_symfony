@@ -2,19 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ArticleRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\File;
-
-
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
-#[Vich\Uploadable]
 class Article
 {
     #[ORM\Id]
@@ -47,28 +42,17 @@ class Article
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'articles')]
     private Collection $tags;
 
-    /**
-     * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     */
-    #[Vich\UploadableField(mapping: 'articles_image', fileNameProperty: 'imageName', size: 'imageSize')]
-    private ?File $imageFile = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $imageName = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $ImageSize = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $imageUpdatedAt = null;
-
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comments::class, orphanRemoval: true)]
     private Collection $comments;
+
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: ArticleImage::class, orphanRemoval: true, cascade: ['persist'])]
+    private Collection $articleImages;
 
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->articleImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,58 +152,6 @@ class Article
         return $this;
     }
 
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->imageUpdatedAt = new \DateTimeImmutable();
-        }
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    public function getImageName(): ?string
-    {
-        return $this->imageName;
-    }
-
-    public function setImageName(?string $imageName): self
-    {
-        $this->imageName = $imageName;
-
-        return $this;
-    }
-
-    public function getImageSize(): ?int
-    {
-        return $this->ImageSize;
-    }
-
-    public function setImageSize(?int $ImageSize): self
-    {
-        $this->ImageSize = $ImageSize;
-
-        return $this;
-    }
-
-    public function getImageUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->imageUpdatedAt;
-    }
-
-    public function setImageUpdatedAt(?\DateTimeInterface $imageUpdatedAt): self
-    {
-        $this->imageUpdatedAt = $imageUpdatedAt;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Comments>
      */
@@ -244,6 +176,36 @@ class Article
             // set the owning side to null (unless already changed)
             if ($comment->getArticle() === $this) {
                 $comment->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ArticleImage>
+     */
+    public function getArticleImages(): Collection
+    {
+        return $this->articleImages;
+    }
+
+    public function addArticleImage(ArticleImage $articleImage): self
+    {
+        if (!$this->articleImages->contains($articleImage)) {
+            $this->articleImages[] = $articleImage;
+            $articleImage->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleImage(ArticleImage $articleImage): self
+    {
+        if ($this->articleImages->removeElement($articleImage)) {
+            // set the owning side to null (unless already changed)
+            if ($articleImage->getArticle() === $this) {
+                $articleImage->setArticle(null);
             }
         }
 

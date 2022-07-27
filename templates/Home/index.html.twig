@@ -14,17 +14,19 @@
 			{% for article in articles %}
 				<div class="col-md-4">
 					<div class="blog-card">
-						{% if article.imageName %}
-							<div class="blog-card-image">
+						{% for image in article.articleImages|slice(0,1) %}
+                            <div class="blog-card-image">
                                 <a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}">
-                                    <img src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.title }}">
+                                    <img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ article.title }}">
                                 </a>
-							</div>
-						{% else %}
-							<div class="blog-card-image">
-								<a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}"><img src="https://fakeimg.pl/200x100" alt=""></a>
-							</div>
-						{% endif %}
+                            </div>
+                        {% else %}
+                            <div class="blog-card-image">
+								<a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}">
+                                    <img src="https://fakeimg.pl/200x100" alt="{{ article.title }}">
+                                </a>
+                            </div>
+                        {% endfor %}
 						<div class="blog-card-content">
 							<a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}"><h2 class="blog-card-content-header">{{ article.title}}</h2></a>
 							<p class="blog-card-content-description">{{ article.content|striptags|slice(0, 150) ~ '...' }}</p>

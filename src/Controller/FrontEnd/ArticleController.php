@@ -4,6 +4,7 @@ namespace App\Controller\FrontEnd;
 
 use App\Entity\Comments;
 use App\Form\CommentsType;
+use App\Repository\ArticleImageRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,6 +23,7 @@ class ArticleController extends AbstractController
         Security $security,
         EntityManagerInterface $emi,
         CommentsRepository $commentsRepo,
+        ArticleImageRepository $articleImageRepo,
         int $id,
         string $slug,
         ArticleRepository $articleRepo

@@ -163,6 +163,7 @@ class ResetPasswordController extends AbstractController
             ->htmlTemplate('Security/reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,
+                'user' => $user,
             ]);
 
         $mailer->send($email);

@@ -28,6 +28,15 @@ h6 {
     margin-bottom: 0px;
 }
 
+.card h1, h2, h3, h4, h5, h6, label {
+    color: #1f1f1f;
+}
+
+label,
+small {
+    color: #1f1f1f;
+}
+
 table,
 tr,
 th,
@@ -35,6 +44,9 @@ td {
     color: $white;
 }
 
+ul {
+    list-style: none;
+}
 
 h1 {
     font-size: 35px;

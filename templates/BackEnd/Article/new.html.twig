@@ -22,17 +22,7 @@
 				<h1 class="text-center">Add a new article</h1>
 			</div>
 			<div class="card-body">
-				{{ form_start(form)}}
-
-                    {{ form_widget(form.title, {'attr': {'class': 'mb-4', 'placeholder': 'Subject of your article...'}}) }}
-					{{ form_row(form.tags) }}
-					{{ form_row(form.imageFile) }}
-                    {{ form_widget(form.content, {'attr': {'class': 'mb-4', 'placeholder': 'Content...', 'rows': 10}}) }}
-
-			</div>
-			<div class="card-footer text-center">
-                <button type="submit" class="btn btn-secondary mt-2 mb-2">Add a new one</button>
-                {{ form_end(form)  }}
+				{% include "BackEnd/Article/_form.html.twig" with {button_label: 'Add a new one'} %}
             </div>
 		</div>
 	</section>

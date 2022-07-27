@@ -7,6 +7,7 @@ use App\Entity\Tag;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,11 +33,13 @@ class ArticleType extends AbstractType
                 'choice_label' => 'title',
                 'by_reference' => false
             ])
-            ->add('imageFile', VichImageType::class, [
-                'label' => 'Image:',
-                'required' => false,
-                'download_uri' => false,
-                'image_uri' => true
+            ->add('articleImages', CollectionType::class, [
+                'entry_type' => ArticleImageType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'prototype' => true,
+                'by_reference' => false
             ])
             ->add('content', CKEditorType::class, [
                 'label' => 'Content:',
