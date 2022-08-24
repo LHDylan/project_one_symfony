@@ -1,0 +1,11 @@
+#Définir le namespace de l'Entity
+
+App\Entity\User:
+  userAdmin:
+    email: "admin@text.com"
+    password: "<hashPassword('test1234')>"
+    fName: "Alice"
+    lName: "Fixtures"
+    address: "street test"
+    city: "Testcity"
+    zipCode: "01010"
