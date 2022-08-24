@@ -13,7 +13,7 @@ class MainController extends AbstractController
     #[Route('/', name: "home")]
     public function index(ArticleRepository $articleRepo): Response
     {
-        $articles = $articleRepo->findAll();
+        $articles = $articleRepo->findLastestArticlesWithLimit(6);
 
         return $this->render('Home/index.html.twig', [
             'articles' => $articles

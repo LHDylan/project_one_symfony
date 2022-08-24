@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Article |
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <section class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-9">
+                {% include "Components/Article/_articles.html.twig" with {articles: articles} only %}
+            </div>
+        </div>
+
+    </section>
+{% endblock %}

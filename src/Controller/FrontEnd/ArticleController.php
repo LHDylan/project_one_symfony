@@ -2,9 +2,9 @@
 
 namespace App\Controller\FrontEnd;
 
+use App\Entity\Article;
 use App\Entity\Comments;
 use App\Form\CommentsType;
-use App\Repository\ArticleImageRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,20 +17,25 @@ use Symfony\Component\Security\Core\Security;
 #[Route('/article')]
 class ArticleController extends AbstractController
 {
-    #[Route('/{id}-{slug}', name: 'article.show')]
-    public function index(
+    #[Route('/liste', name: 'article.index')]
+    public function index(ArticleRepository $articleRepo): Response
+    {
+        $articles = $articleRepo->findSearch();
+
+        return $this->render('Article/index.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
+    #[Route('/details/{slug}', name: 'article.show')]
+    public function show(
+        ?Article $article,
         Request $request,
         Security $security,
         EntityManagerInterface $emi,
-        CommentsRepository $commentsRepo,
-        ArticleImageRepository $articleImageRepo,
-        int $id,
-        string $slug,
-        ArticleRepository $articleRepo
+        CommentsRepository $commentsRepo
     ): Response {
-        $article = $articleRepo->findOneBy(['id' => $id, 'slug' => $slug]);
-
-        if (!$article) {
+        if (!$article instanceof Article) {
             $this->addFlash('error', 'Article not found.');
 
             return $this->redirectToRoute('home');

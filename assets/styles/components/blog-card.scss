@@ -1,5 +1,15 @@
+.blog-list {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
 .blog-card {
     margin-top: 4em;
+    // flex: 0 0 auto;
     width: 100%;
     display: inline-block;
     margin-bottom: 30px;
