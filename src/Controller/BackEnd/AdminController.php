@@ -2,9 +2,11 @@
 
 namespace App\Controller\BackEnd;
 
+use App\Data\SearchData;
 use App\Entity\Article;
 use App\Entity\Comments;
 use App\Form\ArticleType;
+use App\Form\SearchType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,12 +35,18 @@ class AdminController extends AbstractController
     }
 
     #[Route('/article', name: 'admin.article')]
-    public function adminListArticle()
+    public function adminListArticle(ArticleRepository $articleRepo, Request $request): Response
     {
-        $articles = $this->repoArticle->findAll();
+        $data = new SearchData();
 
-        return $this->render('Backend/Article/index.html.twig', [
+        $form = $this->createForm(SearchType::class, $data);
+        $form->handleRequest($request);
+
+        $articles = $articleRepo->findSearch($data);
+
+        return $this->renderForm('BackEnd/Article/index.html.twig', [
             'articles' => $articles,
+            'form' => $form
         ]);
     }
 

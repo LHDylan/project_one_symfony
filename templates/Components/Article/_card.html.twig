@@ -17,6 +17,9 @@
             <h2 class="blog-card-content-header">{{ article.title}}</h2>
             <p class="blog-card-content-description">{{ article.content|striptags|slice(0, 150) ~ '...' }}</p>
             <p><i class="far fa-calendar-alt"></i> {{ article.createdAt|format_datetime('full', 'none')}}</p>
+            {% for tag in article.tags %}
+                <em class="text-muted">#{{ tag.title }}</em>
+            {% endfor %}
             {% if article.user is not null %}
                 <p class="text-muted mt-2">{{ article.user.fName }} {{ article.user.lName }}</p>
             {% endif %}

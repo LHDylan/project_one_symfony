@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -74,16 +75,26 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findSearch(): array
+    public function findSearch(SearchData $search): array
     {
         $query = $this->createQueryBuilder('a')
-            ->select('a', 't', 'u', 'i')
+            ->select('a', 't', 'u', 'i', 'co')
             ->leftJoin('a.tags', 't')
+            ->leftJoin('a.comments', 'co')
             ->join('a.user', 'u')
-            ->leftJoin('a.articleImages', 'i')
+            ->leftJoin('a.articleImages', 'i');
+
+        if (!empty($search->getQuery())) {
+            $query->andWhere('a.title LIKE :title')
+                ->setParameter('title', '%' . $search->getQuery() . '%');
+        }
+        if (!empty($search->getTags())) {
+            $query->andWhere('t.id IN (:tag)')
+                ->setParameter('tag', $search->getTags());
+        }
+
+        return $query
             ->getQuery()
             ->getResult();
-
-        return $query;
     }
 }

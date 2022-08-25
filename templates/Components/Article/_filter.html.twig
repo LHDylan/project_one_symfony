@@ -1,0 +1,9 @@
+{{ form_start(form, {'attr': {'class': 'card form-filter p-3' }}) }}
+
+    {{form_row(form.query)}}
+    <h3 class="mb-2">Tags</h3>
+    {{form_row(form.tags)}}
+
+    <button class="btn btn-primary btn-filter-form w-100" type="submit">Search</button>
+
+{{ form_end(form) }}

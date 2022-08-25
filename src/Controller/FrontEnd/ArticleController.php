@@ -2,9 +2,11 @@
 
 namespace App\Controller\FrontEnd;
 
+use App\Data\SearchData;
 use App\Entity\Article;
 use App\Entity\Comments;
 use App\Form\CommentsType;
+use App\Form\SearchType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,16 +16,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
-#[Route('/article')]
+#[Route('/articles')]
 class ArticleController extends AbstractController
 {
-    #[Route('/liste', name: 'article.index')]
-    public function index(ArticleRepository $articleRepo): Response
+    #[Route('/', name: 'article.index')]
+    public function index(ArticleRepository $articleRepo, Request $request): Response
     {
-        $articles = $articleRepo->findSearch();
+        $data = new SearchData();
 
-        return $this->render('Article/index.html.twig', [
+        $form = $this->createForm(SearchType::class, $data);
+        $form->handleRequest($request);
+
+        $articles = $articleRepo->findSearch($data);
+
+        return $this->renderForm('Article/index.html.twig', [
             'articles' => $articles,
+            'form' => $form
         ]);
     }
 

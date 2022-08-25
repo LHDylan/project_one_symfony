@@ -17,58 +17,19 @@
 
 {% block body %}
 
-    <section class="container mt-4">
+    <section class="container-fluid mt-4">
         <div>
             <h1 class="title text-center">Articles</h1>
         </div>
-        <div class="row mt-4">
-            {% for article in articles %}
-                <div class="col-md-4">
-                    <div class="blog-card">
-                       {% for image in article.articleImages|slice(0,1) %}
-                            <div class="blog-card-image">
-                                <a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}">
-                                    <img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ article.title }}">
-                                </a>
-                            </div>
-                        {% else %}
-                            <div class="blog-card-image">
-								<a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}">
-                                    <img src="https://fakeimg.pl/200x100" alt="{{ article.title }}">
-                                </a>
-                            </div>
-                        {% endfor %}
-                        <div class="blog-card-content">
-                            <h2 class="blog-card-content-header">{{ article.title}}</h2>
-                            <p class="blog-card-content-description">{{ article.content|striptags|slice(0, 150) ~ '...' }}</p>
-                            <p><i class="far fa-calendar-alt"></i> {{ article.createdAt|format_datetime('full', 'none')}}</p>
-                            {% if article.user is not null %}
-                                <p class="text-muted mt-2">{{ article.user.fName }} {{ article.user.lName }}</p>
-                            {% endif %}
-                            <div class="row mt-2">
-                                <div class="col-md-3">
-                                    <a href="{{ path('admin.article.edit', {'id': article.id, 'slug': article.slug}) }}" class="btn btn-secondary">Modify</a>
-                                </div>
-                                {% if article.comments|length > 0 %}
-                                    <div class="col-md-4">
-                                        <a href="{{ path('admin.article.comments', {'id': article.id, 'slug': article.slug }) }}" class="btn btn-secondary">Comments</a>
-                                    </div>
-                                {% endif %}
-                                <div class="col-md-5 text-end">
-                                    <form method="POST" action="{{ path('admin.article.delete', {'id': article.id}) }}" onsubmit="return confirm('Are you sure?')">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
-                                        <button class="btn btn-primary">(╯°□°）╯︵<i class="far fa-trash-alt"></i></button>                                       
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-        <div class="text-center mt-4">
+        <div class="text-center mt-4 mb-4">
             <a href="{{path('admin.article.new')}}" class="btn btn-secondary">Add a new one</a>
         </div>
+        <div class="row">
+            <div class="col-md-3">
+                {% include "Components/Article/_filter.html.twig" %}
+            </div>
+            <div class="col-md-9">
+                {% include "Components/Article/_articles.html.twig" with {articles: articles, admin: true} only %}
+            </div>
     </section>
 {% endblock %}
