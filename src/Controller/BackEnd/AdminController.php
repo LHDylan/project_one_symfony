@@ -42,7 +42,7 @@ class AdminController extends AbstractController
         $form = $this->createForm(SearchType::class, $data);
         $form->handleRequest($request);
 
-        $articles = $articleRepo->findSearch($data);
+        $articles = $articleRepo->findSearch($data, false);
 
         return $this->renderForm('BackEnd/Article/index.html.twig', [
             'articles' => $articles,
@@ -94,6 +94,21 @@ class AdminController extends AbstractController
         return $this->render('BackEnd/Article/edit.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route("/article/switch/{id}", name: "admin.article.switch", methods: ['GET'])]
+    public function switchVisibilityArticles(int $id)
+    {
+        $article = $this->repoArticle->find($id);
+
+        if ($article) {
+            $article->isActive() ? $article->setActive(false) : $article->setActive(true);
+            $this->repoArticle->add($article, true);
+
+            return new Response('Visibility changed', 201);
+        }
+
+        return new Response('Comment not found', 404);
     }
 
     #[Route('/article/delete/{id}', name: 'admin.article.delete', methods: 'DELETE|POST')]

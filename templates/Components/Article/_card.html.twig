@@ -28,6 +28,16 @@
                     <div class="col-md-3">
                         <a href="{{ path('admin.article.edit', {'id': article.id, 'slug': article.slug}) }}" class="btn btn-secondary">Modify</a>
                     </div>
+                    <div class="col-md-3 form-check form-switch mt-4">
+                        <input 
+                            type="checkbox" 
+                            class="form-check-input" 
+                            value="{{ article.id }}" 
+                            role="switch"
+                            data-switch-active-article {{ article.active ? 'checked'}}
+                        >
+                        <label class="form-check-label">active</label>
+                    </div>
                     {% if article.comments|length > 0 %}
                         <div class="col-md-4">
                             <a href="{{ path('admin.article.comments', {'id': article.id, 'slug': article.slug }) }}" class="btn btn-secondary">Comments</a>

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Tag;
+use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -26,6 +27,10 @@ class ArticleType extends AbstractType
             ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
+                'query_builder' => function (EntityRepository $entityRepo) {
+                    return $entityRepo->createQueryBuilder('t')
+                        ->andWhere('t.active = true');
+                },
                 'label' => 'Tags:',
                 'required' => false,
                 'expanded' => true,

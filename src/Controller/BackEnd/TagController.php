@@ -67,18 +67,17 @@ class TagController extends AbstractController
     }
 
     #[Route("/switch/{id}", name: "app_tags_switch", methods: ['GET'])]
-    public function switchVisibilityTag(int $id, TagRepository $tagsRepo)
+    public function switchVisibilityTag(?Tag $tag, TagRepository $tagRepository)
     {
-        $tag = $tagsRepo->find($id);
+        if (!$tag instanceof Tag) {
 
-        if ($tag) {
-            $tag->isActive() ? $tag->setActive(false) : $tag->setActive(true);
-            $tagsRepo->add($tag, true);
-
-            return new Response('Visibility changed', 201);
+            return new Response('Tag not found', 404);
         }
 
-        return new Response('Comment not found', 404);
+        $tag->setActive(!$tag->isActive());
+        $tagRepository->add($tag, true);
+
+        return new Response('Visibility changed', 201);
     }
 
     #[Route('/{id}', name: 'app_tag_delete', methods: ['POST'])]

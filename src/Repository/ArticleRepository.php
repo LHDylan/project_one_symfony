@@ -75,7 +75,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findSearch(SearchData $search): array
+    public function findSearch(SearchData $search, bool $isActive): array
     {
         $query = $this->createQueryBuilder('a')
             ->select('a', 't', 'u', 'i', 'co')
@@ -83,6 +83,10 @@ class ArticleRepository extends ServiceEntityRepository
             ->leftJoin('a.comments', 'co')
             ->join('a.user', 'u')
             ->leftJoin('a.articleImages', 'i');
+
+        if ($isActive) {
+            $query->andWhere('a.active = true');
+        }
 
         if (!empty($search->getQuery())) {
             $query->andWhere('a.title LIKE :title')

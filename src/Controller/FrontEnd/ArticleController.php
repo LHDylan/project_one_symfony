@@ -27,7 +27,7 @@ class ArticleController extends AbstractController
         $form = $this->createForm(SearchType::class, $data);
         $form->handleRequest($request);
 
-        $articles = $articleRepo->findSearch($data);
+        $articles = $articleRepo->findSearch($data, true);
 
         return $this->renderForm('Article/index.html.twig', [
             'articles' => $articles,

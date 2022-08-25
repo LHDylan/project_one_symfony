@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Data\SearchData;
 use App\Entity\Tag;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,6 +25,10 @@ class SearchType extends AbstractType
             ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
+                'query_builder' => function (EntityRepository $entityRepo) {
+                    return $entityRepo->createQueryBuilder('t')
+                        ->andWhere('t.active = true');
+                },
                 'label' => false,
                 'required' => false,
                 'choice_label' => 'title',
