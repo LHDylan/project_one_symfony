@@ -11,6 +11,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,6 +30,24 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         $articles = $articleRepo->findSearch($data, true);
+
+        if ($request->get('ajax')) {
+            return new JsonResponse([
+                'content' => $this->renderView('Components/Article/_articles.html.twig', [
+                    'articles' => $articles
+                ]),
+                'sorting' => $this->renderView('Components/Article/_sorting.html.twig', [
+                    'articles' => $articles
+                ]),
+                'pagination' => $this->renderView('Components/Article/_pagination.html.twig', [
+                    'articles' => $articles
+                ]),
+                'count' => $this->renderView('Components/Article/_count.html.twig', [
+                    'articles' => $articles
+                ]),
+                'pages' => ceil($articles->getTotalItemCount() / $articles->getItemNumberPerPage())
+            ]);
+        }
 
         return $this->renderForm('Article/index.html.twig', [
             'articles' => $articles,

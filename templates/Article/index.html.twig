@@ -19,9 +19,9 @@
                         {% include "Components/Article/_sorting.html.twig" %}
                     </div>
                 </div>
-
-                {% include "Components/Article/_articles.html.twig" with {articles: articles} only %}
-
+                <div class="blog-list js-filter-content row">
+                    {% include "Components/Article/_articles.html.twig" with {articles: articles} only %}
+                </div>
                 {% include "Components/Article/_pagination.html.twig" %}
             </div>
         </div>

@@ -1,5 +1,4 @@
-<div class="blog-list js-filter-content row">
+
     {% for article in articles %}
         {% include "Components/Article/_card.html.twig" with {admin: (admin is defined) ? admin : false} %}
     {% endfor %}
-</div>
