@@ -1,4 +1,5 @@
 import { debounce } from "lodash";
+import { Flipper, spring } from "flip-toolkit";
 
 /**
  * Class for the filter posts bundle
@@ -108,11 +109,7 @@ export default class filter {
                 this.pagination.style.display = null;
             }
 
-            if (append) {
-                this.content.innerHTML = data.content;
-            } else {
-                this.content.innerHTML = data.content;
-            }
+            this.flipContent(data.content, append);
 
             params.delete("ajax");
             history.replaceState(
@@ -159,6 +156,73 @@ export default class filter {
 
         await this.loadUrl(`${url.pathname}?${params.toString()}`, true);
         button.target.removeAttribute("disabled");
+    }
+
+    flipContent(content, append) {
+        const springName = "veryGentle";
+        const exitSpring = function (element, index, onComplete) {
+            spring({
+                config: "stiff",
+                values: {
+                    translateY: [0, -20],
+                    opacity: [1, 0],
+                },
+                onUpdate: ({ translateY, opacity }) => {
+                    element.style.opacity = opacity;
+                    element.style.transform = `translateY(${translateY}px)`;
+                },
+                onComplete,
+            });
+        };
+        const appearSpring = function (element, index) {
+            spring({
+                config: springName,
+                values: {
+                    translateY: [0, 20],
+                    opacity: [0, 1],
+                },
+                onUpdate: ({ translateY, opacity }) => {
+                    element.style.opacity = opacity;
+                    element.style.transform = `translateY(${translateY}px)`;
+                },
+                delay: index * 10,
+            });
+        };
+
+        const flipper = new Flipper({
+            element: this.content,
+        });
+
+        let cards = this.content.children;
+        for (let card of cards) {
+            flipper.addFlipped({
+                element: card,
+                flipId: card.id,
+                spring: springName,
+                shouldFlip: false,
+                onExit: exitSpring,
+            });
+        }
+
+        flipper.recordBeforeUpdate();
+
+        if (append) {
+            this.content.innerHTML += content;
+        } else {
+            this.content.innerHTML = content;
+        }
+
+        cards = this.content.children;
+        for (let card of cards) {
+            flipper.addFlipped({
+                element: card,
+                flipId: card.id,
+                spring: springName,
+                onAppear: appearSpring,
+            });
+        }
+
+        flipper.update();
     }
 
     /**
