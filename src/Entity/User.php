@@ -8,15 +8,20 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
-use Serializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[Vich\Uploadable]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, Serializable
+#[UniqueEntity(
+    fields: ['email'],
+    message: 'This email is already used by another user.'
+)]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,6 +29,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Regex(
+        pattern: '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD',
+        message: 'Veuillez rentrer un email valide.'
+    )]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -33,21 +42,49 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\Regex(
+        pattern: '/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/',
+        message: 'Password must be at least 6 characters, and contains at least one uppercase letter, one lowercase letter, one number and can`t contains spaces.'
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 101)]
+    #[Assert\Length(
+        min: 2,
+        minMessage: 'First name must be at least {{ limit }} characters long',
+        max: 101,
+        maxMessage: 'First name can\'t exceed {{ limit }} characters long',
+    )]
     private ?string $fName = null;
 
     #[ORM\Column(length: 101)]
+    #[Assert\Length(
+        min: 2,
+        minMessage: 'First name must be at least {{ limit }} characters long',
+        max: 101,
+        maxMessage: 'First name can\'t exceed {{ limit }} characters long',
+    )]
     private ?string $lName = null;
 
     #[ORM\Column(length: 150)]
+    #[Assert\Length(
+        max: 150,
+        maxMessage: 'First name can\'t exceed {{ limit }} characters long',
+    )]
     private ?string $address = null;
 
     #[ORM\Column]
-    private ?int $zipCode = null;
+    #[Assert\Regex(
+        pattern: '/^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$/',
+        message: 'Veuillez rentrer un code postal valide.'
+    )]
+    private ?string $zipCode = null;
 
     #[ORM\Column(length: 101)]
+    #[Assert\Length(
+        max: 101,
+        maxMessage: 'First name can\'t exceed {{ limit }} characters long',
+    )]
     private ?string $city = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
@@ -77,36 +114,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
         $this->comments = new ArrayCollection();
     }
 
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize([
-            $this->id,
-            $this->email,
-            $this->roles,
-            $this->password,
-            $this->fName,
-            $this->lName,
-            $this->address,
-            $this->zipCode,
-            $this->city,
-            $this->imageName
-        ]);
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'roles' => $this->roles,
+            'password' => $this->password,
+            'fName' => $this->fName,
+            'lName' => $this->lName,
+            'address' => $this->address,
+            'zipCode' => $this->zipCode,
+            'city' => $this->city,
+            'image_name' => $this->imageName
+        ];
     }
 
-    public function unserialize($serialize)
+    public function __unserialize(array $data)
     {
-        list(
-            $this->id,
-            $this->email,
-            $this->roles,
-            $this->password,
-            $this->fName,
-            $this->lName,
-            $this->address,
-            $this->zipCode,
-            $this->city,
-            $this->imageName
-        ) = unserialize($serialize);
+        $this->id = $data['id'];
+        $this->email = $data['email'];
+        $this->roles = $data['roles'];
+        $this->password = $data['password'];
+        $this->fName = $data['fName'];
+        $this->lName = $data['lName'];
+        $this->address = $data['address'];
+        $this->zipCode = $data['zipCode'];
+        $this->city = $data['city'];
+        $this->imageName = $data['image_name'];
     }
 
     public function getId(): ?int
@@ -215,12 +250,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
         return $this;
     }
 
-    public function getZipCode(): ?int
+    public function getZipCode(): ?string
     {
         return $this->zipCode;
     }
 
-    public function setZipCode(int $zipCode): self
+    public function setZipCode(string $zipCode): self
     {
         $this->zipCode = $zipCode;
 

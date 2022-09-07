@@ -1,5 +1,6 @@
 {{ form_start(form)}}
 
+{{ form_errors(form.title) }}
 {{ form_widget(form.title, {'attr': {'class': 'mb-4', 'placeholder': 'Subject of your article...'}}) }}
 {{ form_row(form.tags) }}
 <div class="row mb-4">
@@ -23,6 +24,7 @@
         </div>
 	</div>
 </div>
+{{ form_errors(form.content) }}
 {{ form_widget(form.content, {'attr': {'class': 'mb-4', 'placeholder': 'Content...', 'rows': 10}}) }}</div><div class="card-footer text-center">
 <button type="submit" class="btn btn-secondary mt-2 mb-2">{{button_label|default('save') }}</button>
 {{form_widget(form._token)}}

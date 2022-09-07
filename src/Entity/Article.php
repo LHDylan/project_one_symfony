@@ -8,8 +8,14 @@ use App\Repository\ArticleRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[UniqueEntity(
+    fields: ['title'],
+    message: 'This title is already used.'
+)]
 class Article
 {
     #[ORM\Id]
@@ -18,9 +24,19 @@ class Article
     private ?int $id = null;
 
     #[ORM\Column(length: 150, unique: true)]
+    #[Assert\Length(
+        min: 2,
+        minMessage: 'Title must be at least {{ limit }} characters long',
+        max: 150,
+        maxMessage: 'Title can\'t exceed {{ limit }} characters long',
+    )]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(
+        min: 10,
+        minMessage: 'Content must be at least {{ limit }} characters long',
+    )]
     private ?string $content = null;
 
     #[ORM\Column(length: 150, unique: true)]

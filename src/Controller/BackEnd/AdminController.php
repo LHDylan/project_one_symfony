@@ -60,6 +60,7 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $article->setUser($security->getUser());
+            $article->setActive(true);
             $this->emi->persist($article);
             $this->emi->flush();
             $this->addFlash('success', 'Article created successfully');
