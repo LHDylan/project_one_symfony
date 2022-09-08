@@ -11,7 +11,7 @@ class SearchData
     private ?array $tags = [];
 
     /**
-     * Get the value of page
+     * Get the value of page.
      */
     public function getPage()
     {
@@ -19,9 +19,9 @@ class SearchData
     }
 
     /**
-     * Set the value of page
+     * Set the value of page.
      *
-     * @return  self
+     * @return self
      */
     public function setPage($page)
     {
@@ -31,7 +31,7 @@ class SearchData
     }
 
     /**
-     * Get the value of query
+     * Get the value of query.
      */
     public function getQuery()
     {
@@ -39,9 +39,9 @@ class SearchData
     }
 
     /**
-     * Set the value of query
+     * Set the value of query.
      *
-     * @return  self
+     * @return self
      */
     public function setQuery($query)
     {
@@ -51,7 +51,7 @@ class SearchData
     }
 
     /**
-     * Get the value of tags
+     * Get the value of tags.
      */
     public function getTags()
     {
@@ -59,9 +59,9 @@ class SearchData
     }
 
     /**
-     * Set the value of tags
+     * Set the value of tags.
      *
-     * @return  self
+     * @return self
      */
     public function setTags($tags)
     {

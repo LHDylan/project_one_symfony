@@ -1,4 +1,6 @@
 {
+    "name" : "lhdylan/projectone",
+    "description" : "Project One Demo Lesson",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -11,6 +13,7 @@
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
+        "friendsofphp/php-cs-fixer": "^3.11",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
         "knplabs/knp-paginator-bundle": "^5.8",
         "knplabs/knp-time-bundle": "^1.19",
@@ -36,6 +39,7 @@
         "symfony/property-access": "6.1.*",
         "symfony/property-info": "6.1.*",
         "symfony/proxy-manager-bridge": "6.1.*",
+        "symfony/requirements-checker": "^2.0",
         "symfony/runtime": "6.1.*",
         "symfony/security-bundle": "6.1.*",
         "symfony/serializer": "6.1.*",
@@ -87,7 +91,8 @@
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "ckeditor:install": "symfony-cmd"
+            "ckeditor:install": "symfony-cmd",
+            "requirements-checker": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"

@@ -94,7 +94,7 @@ class ArticleRepository extends ServiceEntityRepository
 
         if (!empty($search->getQuery())) {
             $query->andWhere('a.title LIKE :title')
-                ->setParameter('title', '%' . $search->getQuery() . '%');
+                ->setParameter('title', '%'.$search->getQuery().'%');
         }
         if (!empty($search->getTags())) {
             $query->andWhere('t.id IN (:tag)')

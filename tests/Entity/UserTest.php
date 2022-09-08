@@ -5,9 +5,9 @@ namespace App\Test\Entity;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Tests\Utils\AssertTestTrait;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserTest extends KernelTestCase
 {
@@ -18,7 +18,7 @@ class UserTest extends KernelTestCase
      */
     protected $databaseTool;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -28,19 +28,19 @@ class UserTest extends KernelTestCase
     public function testRepositoryCount()
     {
         $users = $this->databaseTool->loadAliceFixture([
-            dirname(__DIR__) . '/Fixtures/UserTestFixtures.yaml',
-            dirname(__DIR__) . '/Fixtures/TagTestFixtures.yaml',
-            dirname(__DIR__) . '/Fixtures/ArticleTestFixtures.yaml'
+            \dirname(__DIR__).'/Fixtures/UserTestFixtures.yaml',
+            \dirname(__DIR__).'/Fixtures/TagTestFixtures.yaml',
+            \dirname(__DIR__).'/Fixtures/ArticleTestFixtures.yaml',
         ]);
 
         $users = self::getContainer()->get(UserRepository::class)->count([]);
 
-        $this->assertEquals(7, $users);
+        $this->assertSame(7, $users);
     }
 
     public function getEntity()
     {
-        return (new User)
+        return (new User())
             ->setEmail('exemple@test.com')
             ->setpassword('Test1234')
             ->setfName('FirstNameTest')

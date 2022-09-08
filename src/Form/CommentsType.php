@@ -27,8 +27,8 @@ class CommentsType extends AbstractType
                         'minMessage' => 'Title must be at least {{limit}} characters.',
                         'max' => 100,
                         'maxMessage' => 'Title shoundn\'t exceed {{limit}} characters.',
-                    ])
-                ]
+                    ]),
+                ],
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Content:',
@@ -47,8 +47,8 @@ class CommentsType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'You must accept the privacy policies before posting your comment.',
-                    ])
-                ]
+                    ]),
+                ],
             ]);
     }
 

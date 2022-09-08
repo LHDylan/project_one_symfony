@@ -20,8 +20,8 @@ class SearchType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Search...'
-                ]
+                    'placeholder' => 'Search...',
+                ],
             ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
@@ -33,7 +33,7 @@ class SearchType extends AbstractType
                 'required' => false,
                 'choice_label' => 'title',
                 'expanded' => true,
-                'multiple' => true
+                'multiple' => true,
             ]);
     }
 
@@ -43,7 +43,7 @@ class SearchType extends AbstractType
             'data_class' => SearchData::class,
             'method' => 'GET',
             'csrf_protection' => false,
-            'validation_groups' => false
+            'validation_groups' => false,
         ]);
     }
 

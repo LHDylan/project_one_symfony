@@ -4,13 +4,11 @@ namespace App\Controller\BackEnd;
 
 use App\Data\SearchData;
 use App\Entity\Article;
-use App\Entity\Comments;
 use App\Form\ArticleType;
 use App\Form\SearchType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Builder\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +18,6 @@ use Symfony\Component\Security\Core\Security;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
-
     public function __construct(
         private EntityManagerInterface $emi,
         private ArticleRepository $repoArticle,
@@ -31,7 +28,7 @@ class AdminController extends AbstractController
     #[Route('', name: 'admin')]
     public function dashboard()
     {
-        return $this->render('Backend/index.html.twig',);
+        return $this->render('Backend/index.html.twig');
     }
 
     #[Route('/article', name: 'admin.article')]
@@ -46,7 +43,7 @@ class AdminController extends AbstractController
 
         return $this->renderForm('BackEnd/Article/index.html.twig', [
             'articles' => $articles,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
@@ -64,6 +61,7 @@ class AdminController extends AbstractController
             $this->emi->persist($article);
             $this->emi->flush();
             $this->addFlash('success', 'Article created successfully');
+
             return $this->redirectToRoute('admin');
         }
 
@@ -79,6 +77,7 @@ class AdminController extends AbstractController
 
         if (!$article) {
             $this->addFlash('error', 'Article not found');
+
             return $this->redirectToRoute('admin');
         }
 
@@ -89,6 +88,7 @@ class AdminController extends AbstractController
             $this->emi->persist($article);
             $this->emi->flush();
             $this->addFlash('success', 'Article modified successfully');
+
             return $this->redirectToRoute('admin');
         }
 
@@ -97,7 +97,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route("/article/switch/{id}", name: "admin.article.switch", methods: ['GET'])]
+    #[Route('/article/switch/{id}', name: 'admin.article.switch', methods: ['GET'])]
     public function switchVisibilityArticles(int $id)
     {
         $article = $this->repoArticle->find($id);
@@ -115,7 +115,7 @@ class AdminController extends AbstractController
     #[Route('/article/delete/{id}', name: 'admin.article.delete', methods: 'DELETE|POST')]
     public function deleteArticle(int $id, Article $article, Request $request)
     {
-        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->get('_token'))) {
             $this->emi->remove($article);
             $this->emi->flush();
             $this->addFlash('success', 'Article deleted successfully.');
@@ -124,25 +124,27 @@ class AdminController extends AbstractController
         }
 
         $this->addFlash('error', 'Token expired.');
+
         return $this->redirectToRoute('admin');
     }
 
-    #[Route("/articles/{id}-{slug}/comments", name: "admin.article.comments")]
+    #[Route('/articles/{id}-{slug}/comments', name: 'admin.article.comments')]
     public function adminComments(int $id, string $slug)
     {
         $comments = $this->commentsRepo->findByArticle($id, $slug);
 
         if (!$comments) {
             $this->addFlash('error', 'no comments found');
+
             return $this->redirectToRoute('admin');
         }
 
         return $this->render('BackEnd/article/comments.html.twig', [
-            'comments' => $comments
+            'comments' => $comments,
         ]);
     }
 
-    #[Route("/comments/switch/{id}", name: "admin.comments.switch", methods: ['GET'])]
+    #[Route('/comments/switch/{id}', name: 'admin.comments.switch', methods: ['GET'])]
     public function switchVisibilityComment(int $id)
     {
         $comment = $this->commentsRepo->find($id);

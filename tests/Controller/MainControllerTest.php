@@ -11,15 +11,15 @@ class MainControllerTest extends WebTestCase
     protected $databaseTool;
 
     // Initie le test
-    public function setUp(): void
+    protected function setUp(): void
     {
         // Instancie un nouveau client
         $this->client = self::createClient();
 
         $this->databaseTool = self::getContainer()->get(DatabaseToolCollection::class)->get();
         $this->databaseTool->loadAliceFixture([
-            dirname(__DIR__) . '/Fixtures/UserTestFixtures.yaml',
-            dirname(__DIR__) . '/Fixtures/ArticleTestFixtures.yaml'
+            \dirname(__DIR__).'/Fixtures/UserTestFixtures.yaml',
+            \dirname(__DIR__).'/Fixtures/ArticleTestFixtures.yaml',
         ]);
     }
 

@@ -9,12 +9,9 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichFileType;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ArticleType extends AbstractType
 {
@@ -23,7 +20,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Title:',
-                'required' => true
+                'required' => true,
             ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
@@ -36,7 +33,7 @@ class ArticleType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 'choice_label' => 'title',
-                'by_reference' => false
+                'by_reference' => false,
             ])
             ->add('articleImages', CollectionType::class, [
                 'entry_type' => ArticleImageType::class,
@@ -44,11 +41,11 @@ class ArticleType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
                 'prototype' => true,
-                'by_reference' => false
+                'by_reference' => false,
             ])
             ->add('content', CKEditorType::class, [
                 'label' => 'Content:',
-                'required' => true
+                'required' => true,
             ]);
     }
 

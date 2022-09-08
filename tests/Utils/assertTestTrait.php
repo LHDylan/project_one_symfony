@@ -4,7 +4,7 @@ namespace App\Tests\Utils;
 
 use Symfony\Component\Validator\ConstraintViolation;
 
-trait AssertTestTrait
+trait assertTestTrait
 {
     public function assertHasErrors(mixed $entity, int $number = 0): void
     {
@@ -16,10 +16,9 @@ trait AssertTestTrait
 
         /**
          * @var ConstraintViolation $error
-         * 
          */
         foreach ($errors as $error) {
-            $messages[] = $error->getPropertyPath() . ' -> ' . $error->getMessage();
+            $messages[] = $error->getPropertyPath().' -> '.$error->getMessage();
         }
 
         $this->assertCount($number, $errors, implode(', ', $messages));

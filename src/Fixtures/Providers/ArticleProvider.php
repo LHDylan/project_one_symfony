@@ -16,7 +16,7 @@ class ArticleProvider
 
     public function generateLoremDesc(): string
     {
-        return file_get_contents("https://loripsum.net/api/10/long/headers/link/ul/dl");
+        return file_get_contents('https://loripsum.net/api/10/long/headers/link/ul/dl');
     }
 
     public function generateDate(): DateTimeImmutable

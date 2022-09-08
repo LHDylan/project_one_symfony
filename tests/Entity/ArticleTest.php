@@ -3,15 +3,15 @@
 namespace App\Test\Entity;
 
 use App\Entity\Article;
+use App\Repository\ArticleRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
-use App\Repository\ArticleRepository;
 use App\Tests\Utils\AssertTestTrait;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class ArticleText extends KernelTestCase
+class ArticleTest extends KernelTestCase
 {
     use AssertTestTrait;
 
@@ -20,7 +20,7 @@ class ArticleText extends KernelTestCase
      */
     protected $databaseTool;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -30,14 +30,14 @@ class ArticleText extends KernelTestCase
     public function testRepositoryCount()
     {
         $articles = $this->databaseTool->loadAliceFixture([
-            dirname(__DIR__) . '/Fixtures/UserTestFixtures.yaml',
-            dirname(__DIR__) . '/Fixtures/TagTestFixtures.yaml',
-            dirname(__DIR__) . '/Fixtures/ArticleTestFixtures.yaml'
+            \dirname(__DIR__).'/Fixtures/UserTestFixtures.yaml',
+            \dirname(__DIR__).'/Fixtures/TagTestFixtures.yaml',
+            \dirname(__DIR__).'/Fixtures/ArticleTestFixtures.yaml',
         ]);
 
         $articles = self::getContainer()->get(ArticleRepository::class)->count([]);
 
-        $this->assertEquals(20, $articles);
+        $this->assertSame(20, $articles);
     }
 
     public function getEntity()
@@ -45,7 +45,7 @@ class ArticleText extends KernelTestCase
         $user = self::getContainer()->get(UserRepository::class)->find(1);
         $tag = self::getContainer()->get(TagRepository::class)->find(1);
 
-        return (new Article)
+        return (new Article())
             ->setTitle('Article')
             ->setContent('Description de test')
             ->setUser($user)

@@ -9,9 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Security Controller Test
+ * Security Controller Test.
  */
-class SecurityControllerTestTest extends WebTestCase
+class SecurityControllerTest extends WebTestCase
 {
     protected $client;
     protected $databaseTool;
@@ -27,7 +27,7 @@ class SecurityControllerTestTest extends WebTestCase
 
         $this->databaseTool = self::getContainer()->get(DatabaseToolCollection::class)->get();
         $this->databaseTool->loadAliceFixture([
-            dirname(__DIR__) . '/Fixtures/UserTestFixtures.yaml'
+            \dirname(__DIR__).'/Fixtures/UserTestFixtures.yaml',
         ]);
     }
 
@@ -152,7 +152,7 @@ class SecurityControllerTestTest extends WebTestCase
             'user[password]' => 'Test1234',
             'user[address]' => 'XX rue demo address',
             'user[city]' => 'demo city',
-            'user[zipCode]' => '42210'
+            'user[zipCode]' => '42210',
         ]);
 
         $this->client->submit($form);
@@ -177,7 +177,7 @@ class SecurityControllerTestTest extends WebTestCase
             'user[password]' => 'Test1234',
             'user[address]' => 'XX rue demo address',
             'user[city]' => 'demo city',
-            'user[zipCode]' => '42210'
+            'user[zipCode]' => '42210',
         ]);
 
         $this->client->submit($form);
@@ -195,7 +195,7 @@ class SecurityControllerTestTest extends WebTestCase
             'user[password]' => 'Test1234',
             'user[address]' => 'XX rue demo address',
             'user[city]' => 'demo city',
-            'user[zipCode]' => '42210'
+            'user[zipCode]' => '42210',
         ]);
 
         $this->client->submit($form);
@@ -213,7 +213,7 @@ class SecurityControllerTestTest extends WebTestCase
             'user[password]' => 'T',
             'user[address]' => 'XX rue demo address',
             'user[city]' => 'demo city',
-            'user[zipCode]' => '42210'
+            'user[zipCode]' => '42210',
         ]);
 
         $this->client->submit($form);
@@ -231,7 +231,7 @@ class SecurityControllerTestTest extends WebTestCase
             'user[password]' => '',
             'user[address]' => 'XX rue demo address',
             'user[city]' => 'demo city',
-            'user[zipCode]' => '42210'
+            'user[zipCode]' => '42210',
         ]);
 
         $this->client->submit($form);
@@ -249,7 +249,7 @@ class SecurityControllerTestTest extends WebTestCase
             'user[password]' => 'Test1234',
             'user[address]' => 'XX rue demo address',
             'user[city]' => 'demo city',
-            'user[zipCode]' => '4221'
+            'user[zipCode]' => '4221',
         ]);
 
         $this->client->submit($form);

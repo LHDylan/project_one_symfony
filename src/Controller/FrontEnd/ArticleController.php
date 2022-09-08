@@ -34,24 +34,24 @@ class ArticleController extends AbstractController
         if ($request->get('ajax')) {
             return new JsonResponse([
                 'content' => $this->renderView('Components/Article/_articles.html.twig', [
-                    'articles' => $articles
+                    'articles' => $articles,
                 ]),
                 'sorting' => $this->renderView('Components/Article/_sorting.html.twig', [
-                    'articles' => $articles
+                    'articles' => $articles,
                 ]),
                 'pagination' => $this->renderView('Components/Article/_pagination.html.twig', [
-                    'articles' => $articles
+                    'articles' => $articles,
                 ]),
                 'count' => $this->renderView('Components/Article/_count.html.twig', [
-                    'articles' => $articles
+                    'articles' => $articles,
                 ]),
-                'pages' => ceil($articles->getTotalItemCount() / $articles->getItemNumberPerPage())
+                'pages' => ceil($articles->getTotalItemCount() / $articles->getItemNumberPerPage()),
             ]);
         }
 
         return $this->renderForm('Article/index.html.twig', [
             'articles' => $articles,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
@@ -85,16 +85,17 @@ class ArticleController extends AbstractController
             $emi->flush();
 
             $this->addFlash('success', 'comment has been posted successfully');
+
             return $this->redirectToRoute('article.show', [
                 'id' => $article->getId(),
-                'slug' => $article->getSlug()
+                'slug' => $article->getSlug(),
             ], 301);
         }
 
         return $this->renderForm('article/show.html.twig', [
             'article' => $article,
             'form' => $form,
-            'comments' => $comments
+            'comments' => $comments,
         ]);
     }
 }

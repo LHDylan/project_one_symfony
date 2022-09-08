@@ -66,11 +66,10 @@ class TagController extends AbstractController
         ]);
     }
 
-    #[Route("/switch/{id}", name: "app_tags_switch", methods: ['GET'])]
+    #[Route('/switch/{id}', name: 'app_tags_switch', methods: ['GET'])]
     public function switchVisibilityTag(?Tag $tag, TagRepository $tagRepository)
     {
         if (!$tag instanceof Tag) {
-
             return new Response('Tag not found', 404);
         }
 
@@ -83,7 +82,7 @@ class TagController extends AbstractController
     #[Route('/{id}', name: 'app_tag_delete', methods: ['POST'])]
     public function delete(Request $request, Tag $tag, TagRepository $tagRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $tag->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$tag->getId(), $request->request->get('_token'))) {
             $tagRepository->remove($tag, true);
         }
 

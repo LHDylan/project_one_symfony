@@ -25,7 +25,7 @@ class SecurityController extends AbstractController
 
         return $this->render('Security/login.html.twig', [
             'error' => $error,
-            'lastUsername' => $lastUsername
+            'lastUsername' => $lastUsername,
         ]);
     }
 
@@ -38,7 +38,7 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //hash password
+            // hash password
             $user->setPassword(
                 $passwordHasher->hashPassword(
                     $user,
@@ -55,7 +55,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->renderForm('Security/register.html.twig', [
-            'form' => $form
+            'form' => $form,
         ]);
     }
 }

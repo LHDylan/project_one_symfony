@@ -2,8 +2,6 @@
 
 namespace App\Fixtures\Providers;
 
-use App\Entity\Tag;
-
 class TagProvider
 {
     public function randomTag(): string
@@ -19,7 +17,7 @@ class TagProvider
             '.NET',
             'Ruby on Rails',
             'MongoDB',
-            'MariaDB'
+            'MariaDB',
         ];
 
         return $tagList[array_rand($tagList)];

@@ -4,9 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Comments;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Tools\Setup;
 use Doctrine\Persistence\ManagerRegistry;
-use ProxyManager\ProxyGenerator\LazyLoadingGhost\MethodGenerator\SetProxyInitializer;
 
 /**
  * @extends ServiceEntityRepository<Comments>

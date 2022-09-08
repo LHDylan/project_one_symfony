@@ -17,9 +17,9 @@ class ArticlePantherTest extends PantherTestCase
 
         $this->databaseTool = self::getContainer()->get(DatabaseToolCollection::class)->get();
         $this->databaseTool->loadAliceFixture([
-            dirname(__DIR__) . '/Fixtures/UserTestFixtures.yaml',
-            dirname(__DIR__) . '/Fixtures/TagTestFixtures.yaml',
-            dirname(__DIR__) . '/Fixtures/ArticleTestFixtures.yaml'
+            \dirname(__DIR__).'/Fixtures/UserTestFixtures.yaml',
+            \dirname(__DIR__).'/Fixtures/TagTestFixtures.yaml',
+            \dirname(__DIR__).'/Fixtures/ArticleTestFixtures.yaml',
         ]);
     }
 

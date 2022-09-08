@@ -40,9 +40,17 @@ export default class filter {
      */
     bindEvents() {
         const linkClickListener = (e) => {
-            if (e.target.tagName === "A") {
+            if (e.target.tagName === "A" || e.target.tagName === "I") {
                 e.preventDefault();
-                this.loadUrl(e.target.getAttribute("href"));
+                let url = "";
+
+                if (e.target.tagName === "I") {
+                    url = e.target.parentNode.parentNode.getAttribute("href");
+                } else {
+                    url = e.target.getAttribute("href");
+                }
+
+                this.loadUrl(url);
             }
         };
 

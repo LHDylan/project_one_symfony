@@ -18,7 +18,7 @@ class ArticleImageType extends AbstractType
                 'required' => false,
                 'download_uri' => false,
                 'image_uri' => true,
-                'asset_helper' => true
+                'asset_helper' => true,
             ]);
     }
 
