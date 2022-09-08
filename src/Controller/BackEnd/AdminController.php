@@ -28,7 +28,7 @@ class AdminController extends AbstractController
     ) {
     }
 
-    #[Route('/', name: 'admin')]
+    #[Route('', name: 'admin')]
     public function dashboard()
     {
         return $this->render('Backend/index.html.twig',);

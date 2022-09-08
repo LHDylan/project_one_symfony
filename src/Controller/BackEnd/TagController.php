@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/tag')]
 class TagController extends AbstractController
 {
-    #[Route('/', name: 'app_tag_index', methods: ['GET'])]
+    #[Route('', name: 'app_tag_index', methods: ['GET'])]
     public function index(TagRepository $tagRepository): Response
     {
         return $this->render('BackEnd/tag/index.html.twig', [

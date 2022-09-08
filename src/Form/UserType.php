@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class UserType extends AbstractType
 {
@@ -37,17 +38,16 @@ class UserType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'mapped' => false,
-                'required' => false
-                // 'constraints' => [
-                //     new NotBlank([
-                //         'message' => 'Complete field'
-                //     ]),
-                //     new Length([
-                //         'min' => 6,
-                //         'minMessage' => 'Password should be at least {{ limit }} characters',
-                //         'max' => 100
-                //     ])
-                // ]
+                'required' => true,
+                'constraints' => [
+                    new Regex(
+                        '/^((?=\S?[A-Z])(?=\S?[a-z])(?=\S*?[0-9]).{6,})\S$/',
+                        'Votre mot de passe doit comporter au moins 6 caractères, une lettre majuscule, une lettre miniscule et 1 chiffre sans espace blanc'
+                    ),
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                ],
             ])
             ->add('fName', TextType::class, [
                 'label' => 'First name:',
