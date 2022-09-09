@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Test\Entity;
+namespace App\Tests\Entity;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
@@ -30,9 +30,9 @@ class ArticleTest extends KernelTestCase
     public function testRepositoryCount()
     {
         $articles = $this->databaseTool->loadAliceFixture([
-            \dirname(__DIR__).'/Fixtures/UserTestFixtures.yaml',
-            \dirname(__DIR__).'/Fixtures/TagTestFixtures.yaml',
-            \dirname(__DIR__).'/Fixtures/ArticleTestFixtures.yaml',
+            \dirname(__DIR__) . '/Fixtures/UserTestFixtures.yaml',
+            \dirname(__DIR__) . '/Fixtures/TagTestFixtures.yaml',
+            \dirname(__DIR__) . '/Fixtures/ArticleTestFixtures.yaml',
         ]);
 
         $articles = self::getContainer()->get(ArticleRepository::class)->count([]);

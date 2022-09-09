@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Test\Entity;
+namespace App\Tests\Entity;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -28,9 +28,9 @@ class UserTest extends KernelTestCase
     public function testRepositoryCount()
     {
         $users = $this->databaseTool->loadAliceFixture([
-            \dirname(__DIR__).'/Fixtures/UserTestFixtures.yaml',
-            \dirname(__DIR__).'/Fixtures/TagTestFixtures.yaml',
-            \dirname(__DIR__).'/Fixtures/ArticleTestFixtures.yaml',
+            \dirname(__DIR__) . '/Fixtures/UserTestFixtures.yaml',
+            \dirname(__DIR__) . '/Fixtures/TagTestFixtures.yaml',
+            \dirname(__DIR__) . '/Fixtures/ArticleTestFixtures.yaml',
         ]);
 
         $users = self::getContainer()->get(UserRepository::class)->count([]);
