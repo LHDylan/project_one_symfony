@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ArticleTest extends KernelTestCase
 {
-    use AssertTestTrait;
+    // use AssertTestTrait;
 
     /**
      * @var AbstractDatabaseTool
