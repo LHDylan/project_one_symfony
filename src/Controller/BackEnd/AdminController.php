@@ -18,6 +18,13 @@ use Symfony\Component\Security\Core\Security;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
+    /**
+     * function construct
+     *
+     * @param EntityManagerInterface $emi
+     * @param ArticleRepository $repoArticle
+     * @param CommentsRepository $commentsRepo
+     */
     public function __construct(
         private EntityManagerInterface $emi,
         private ArticleRepository $repoArticle,
@@ -115,7 +122,7 @@ class AdminController extends AbstractController
     #[Route('/article/delete/{id}', name: 'admin.article.delete', methods: 'DELETE|POST')]
     public function deleteArticle(int $id, Article $article, Request $request)
     {
-        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->get('_token'))) {
             $this->emi->remove($article);
             $this->emi->flush();
             $this->addFlash('success', 'Article deleted successfully.');
