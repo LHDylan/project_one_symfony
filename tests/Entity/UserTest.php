@@ -4,14 +4,14 @@ namespace App\Tests\Entity;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Tests\Utils\AssertTestTrait;
+use App\Tests\Utils\AssertTestsTrait;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserTest extends KernelTestCase
 {
-    // use AssertTestTrait;
+    use AssertTestsTrait;
 
     /**
      * @var AbstractDatabaseTool

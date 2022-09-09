@@ -4,7 +4,7 @@ namespace App\Tests\Utils;
 
 use Symfony\Component\Validator\ConstraintViolation;
 
-trait AssertTestTrait
+trait AssertTestsTrait
 {
     public function assertHasErrors(mixed $entity, int $number = 0): void
     {
