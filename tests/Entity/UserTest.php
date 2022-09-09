@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserTest extends KernelTestCase
 {
-    use AssertTestTrait;
+    // use AssertTestTrait;
 
     /**
      * @var AbstractDatabaseTool
