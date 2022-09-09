@@ -146,7 +146,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin');
         }
 
-        return $this->render('BackEnd/article/comments.html.twig', [
+        return $this->render('BackEnd/Article/comments.html.twig', [
             'comments' => $comments,
         ]);
     }
