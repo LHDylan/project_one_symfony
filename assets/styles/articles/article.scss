@@ -1,0 +1,27 @@
+.article-main-content {
+    display: flex;
+    flex-wrap: wrap-reverse;
+
+    .article-sidebar {
+        flex: 1 1 30%;
+
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em 0.5em;
+
+            .tag {
+                background-color: $primary;
+                border-radius: $border-radius;
+                color: $white;
+                padding: 5px 10px;
+                margin: 0;
+            }
+        }
+
+    }
+
+    .article-content {
+        flex: 1 1 70%;
+    }
+}

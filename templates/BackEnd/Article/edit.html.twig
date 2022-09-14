@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modify article |
+	{{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<section class="container-fluid mt-4">
+		<div class="card mx-auto w-50 mt-4">
+			<div class="card-header">
+				<h1 class="text-center">Modify this article</h1>
+			</div>
+			<div class="card-body">
+				{% include "BackEnd/Article/_form.html.twig" %}
+            </div>
+		</div>
+	</section>
+{% endblock %}

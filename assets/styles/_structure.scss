@@ -1,0 +1,84 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    outline: 0px;
+}
+
+html,
+body {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #1f1f1f;
+    font-family: $font-primary;
+    font-size: 16px;
+    font-weight: 400;
+    color: $text-color;
+    line-height: 28px;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 0px;
+}
+
+.card h1, h2, h3, h4, h5, h6, label {
+    color: #1f1f1f;
+}
+
+label,
+small {
+    color: #1f1f1f;
+}
+
+table,
+tr,
+th,
+td {
+    color: $white;
+}
+
+ul {
+    list-style: none;
+}
+
+h1 {
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 45px;
+}
+
+h2 {
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 43px;
+    letter-spacing: -0.8px;
+}
+
+h3 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 32px;
+}
+
+h4 {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 30px;
+}
+
+h5 {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+h6 {
+    font-size: 16px;
+    font-weight: 300;
+}

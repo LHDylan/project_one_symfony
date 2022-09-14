@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ article.title}}
+	|
+	{{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+	{% if article.articleImages|length > 1 %}
+		{% include "Article/_swiper.html.twig" %}
+	{% elseif article.articleImages|length == 1 %}
+		{% include "Article/_banner.html.twig" %}
+	{% else %}
+		<div class="row text-center mt-4">
+			<h1>{{article.title}}</h1>
+		</div>
+	{% endif %}
+
+	<section class="container mt-4 pb-4 border-bottom">
+
+		<div class="article-main-content">
+
+			<aside class="article-sidebar">
+				<h2>Information :</h2>
+
+				<p class="mt-4">
+					<i class="far fa-calendar-alt"></i>
+					<strong>Posted on :</strong> {{ article.createdAt|format_datetime('full', 'none')}}
+				</p>
+
+				<p class="mt-4">
+				<i class="far fa-user-circle"></i>
+					<strong>author :</strong> {{ article.user.fName}} {{ article.user.lName}}
+				</p>
+
+				<h2>Tags :</h2>
+
+				{% if article.tags|length > 0 %}
+					<div class="article-tags">
+						{% for tag in article.tags %}
+							<p class="tag mt-4">
+							<i class="fas fa-tag"></i>
+							{{ tag.title }}</p>
+						{% endfor %}
+					</div>	
+				{% endif %}
+
+			</aside>
+
+			<article class="article-content">
+				{{ article.content|raw }}
+			</article>
+
+		</div>
+
+	</section>
+
+	<section class="container mt-4 pb-4 border-bottom">
+		<div class="comments w-50 mx-auto mt-4">
+			<h2>Leave a comment !</h2>
+			{% if is_granted('ROLE_USER') %}
+				{% include 'BackEnd/article/_comment_form.html.twig' with {button_label: 'post'} %}
+			{% else %}
+				<div class="alert alert-info">
+					<p>
+						<b>Warning!</b>
+						<br/>
+						<a href="{{path('login')}}">You need to be logged to post a comment owo</a>
+					</p>
+				</div>
+			{% endif %}
+		</div>
+	</section>
+
+	<section class="container">
+		<div class="comments-listed">
+			{% if comments|length > 0 %}
+				
+				{% for comment in comments %}
+					<div class="comment border-bottom">
+						<div class="comment-header text-center">
+							<p class="mt-4">
+								{{comment.user.fName}}
+								{{comment.user.lName}}
+							</p>
+							<div class="rating mt-4">
+								{% for number in range(1, 5) %}
+									{% if number <= comment.note %}
+										<i class="fas fa-star rating-color"></i>
+									{% else %}
+										<i class="far fa-star rating-color"></i>
+									{% endif %}
+								{% endfor %}
+							</div>
+							<p class="mt-4">
+								<i class="far fa-calendar-alt"></i>
+								<small> Posted {{ comment.createdAt|ago}}</small>
+							</p>
+						</div>
+
+						<div class="comment-content mb-4">
+							<h3 class="mt-4">{{ comment.title }}</h3>
+							<p class="mt-4">{{ comment.content }}</p>
+						</div>
+					</div>
+				{% endfor %}
+
+			{% endif %}
+		</div>
+	</section>
+{% endblock %}

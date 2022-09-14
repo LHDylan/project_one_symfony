@@ -1,0 +1,31 @@
+{{ form_start(form)}}
+
+{{ form_errors(form.title) }}
+{{ form_widget(form.title, {'attr': {'class': 'mb-4', 'placeholder': 'Subject of your article...'}}) }}
+{{ form_row(form.tags) }}
+<div class="row mb-4">
+	<div class="col-md-12">
+		{{ form_label(form.articleImages) }}
+		<ul id="image-field-list" class="d-flex flex-wrap gap-2 justify-content-between" data-prototype="{{form_widget(form.articleImages.vars.prototype)|e}}" data-widget-tag="{{'<li class="w-30"></li>'|e}}" data-widget-counter="{{form.articleImages|length}}">
+			{% for imageField in form.articleImages %}
+				<li class="list-image">
+					<a class="js-remove-image btn btn-danger">
+						<span class="fa fa-close"></span>
+					</a>
+					{{ form_errors(imageField) }}
+					{{ form_widget(imageField) }}
+				</li>
+			{% endfor %}
+		</ul>
+		<div class="text-center">
+            <button type="button" class="btn btn-primary add-another-collection-widget" data-list-selector="#image-field-list">
+			    new image
+		    </button>
+        </div>
+	</div>
+</div>
+{{ form_errors(form.content) }}
+{{ form_widget(form.content, {'attr': {'class': 'mb-4', 'placeholder': 'Content...', 'rows': 10}}) }}</div><div class="card-footer text-center">
+<button type="submit" class="btn btn-secondary mt-2 mb-2">{{button_label|default('save') }}</button>
+{{form_widget(form._token)}}
+{{ form_end(form, {render_rest: false})  }}

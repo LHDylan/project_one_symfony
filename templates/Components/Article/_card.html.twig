@@ -1,0 +1,57 @@
+<div class="col-md-4" id="article-{{article.id}}">
+    <div class="blog-card" >
+        {% for image in article.articleImages|slice(0,1) %}
+            <div class="blog-card-image">
+                <a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}">
+                    <img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ article.title }}">
+                </a>
+            </div>
+        {% else %}
+            <div class="blog-card-image">
+                <a href="{{ path('article.show', { 'id': article.id, 'slug': article.slug }) }}">
+                    <img src="https://placekitten.com/350/240" alt="{{ article.title }}">
+                </a>
+            </div>
+        {% endfor %}
+        <div class="blog-card-content">
+            <h2 class="blog-card-content-header">{{ article.title}}</h2>
+            <p class="blog-card-content-description">{{ article.content|striptags|slice(0, 150) ~ '...' }}</p>
+            <p><i class="far fa-calendar-alt"></i> {{ article.createdAt|format_datetime('full', 'none')}}</p>
+            {% for tag in article.tags %}
+                <em class="text-muted">#{{ tag.title }}</em>
+            {% endfor %}
+            {% if article.user is not null %}
+                <p class="text-muted mt-2">{{ article.user.fName }} {{ article.user.lName }}</p>
+            {% endif %}
+            {% if admin %}
+                <div class="row mt-2">
+                    <div class="col-md-3">
+                        <a href="{{ path('admin.article.edit', {'id': article.id, 'slug': article.slug}) }}" class="btn btn-secondary">Modify</a>
+                    </div>
+                    <div class="col-md-3 form-check form-switch mt-4">
+                        <input 
+                            type="checkbox" 
+                            class="form-check-input" 
+                            value="{{ article.id }}" 
+                            role="switch"
+                            data-switch-active-article {{ article.active ? 'checked'}}
+                        >
+                        <label class="form-check-label">active</label>
+                    </div>
+                    {% if article.comments|length > 0 %}
+                        <div class="col-md-4">
+                            <a href="{{ path('admin.article.comments', {'id': article.id, 'slug': article.slug }) }}" class="btn btn-secondary">Comments</a>
+                        </div>
+                    {% endif %}
+                    <div class="col-md-5 text-end">
+                        <form method="POST" action="{{ path('admin.article.delete', {'id': article.id}) }}" onsubmit="return confirm('Are you sure?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
+                            <button class="btn btn-primary">(╯°□°）╯︵<i class="far fa-trash-alt"></i></button>                                       
+                        </form>
+                    </div>
+                </div>            
+            {% endif %}
+        </div>
+    </div>
+</div>

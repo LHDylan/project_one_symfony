@@ -1,0 +1,17 @@
+.comment {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    // &:not(:last-child) {
+        // tout sauf le dernier elem
+    // }
+
+    .comment-header {
+        flex: 1 1 30%;
+    }
+
+    .comment-content {
+        flex: 1 1 70%;
+    }
+}

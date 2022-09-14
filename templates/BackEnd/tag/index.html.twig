@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tag index
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-4">
+		<div>
+			<h1 class="title text-center">Tags</h1>
+		</div>
+
+		<div class="row mt-4">
+			{% for tag in tags %}
+				<div class="col-md-4">
+					<div class="blog-card p-3">
+						<div class="blog-card-content">
+							<h2 class="blog-card-content-header">#{{ tag.id }}
+								{{ tag.title }}</h2>
+						</div>
+
+						<div class="row mt-2">
+							<div class="col-md-3">
+								<a href="{{ path('app_tag_edit', {'id': tag.id}) }}" class="btn btn-secondary">Modify</a>
+							</div>
+							<div class="col-md-3 form-check form-switch mt-4">
+								<input 
+									type="checkbox" 
+									class="form-check-input" 
+									value="{{ tag.id }}" 
+									role="switch" 
+									id="flexSwitchCheckDefault"
+									data-switch-active-tag
+									{{ tag.active ? 'checked'}}
+								>
+								<label class="form-check-label">active</label>
+							</div>
+							<div class="col-md-6">
+								<form method="POST" action="{{ path('app_tag_delete', {'id': tag.id}) }}" onsubmit="return confirm('Are you sure?')">
+									<input type="hidden" name="_method" value="DELETE">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tag.id) }}">
+									<button class="btn btn-primary">(╯°□°）╯︵ 🎁
+										<i class="far fa-trash-alt"></i>
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+		<div class="text-center mt-4">
+			<a href="{{path('app_tag_new')}}" class="btn btn-secondary">Add a new one</a>
+		</div>
+
+	</section>
+{% endblock %}

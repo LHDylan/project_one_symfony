@@ -1,0 +1,17 @@
+include:
+  - UserTestFixtures.yaml
+  - TagTestFixtures.yaml
+
+# upload fixtures articles
+App\Entity\Article:
+  article{1..19}:
+    title (unique): 'Title-<current()>'
+    content: '<sentence(10)>'
+    active: true
+    user: '@userAdmin'
+
+  articleName:
+    title: 'Article de test'
+    content: '<sentence(10)>'
+    active: true
+    user: '@userEditor'

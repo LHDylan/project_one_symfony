@@ -1,0 +1,16 @@
+#banner {
+    height: 100vh;
+    background-image: url("../../images/photo-1523800378286-dae1f0dae656.png");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .banner-head {
+        font-size: 48px;
+        padding: 1.5em 5em;
+        border-radius: $border-radius;
+        background-color: rgba($color: $primary, $alpha: 0.7);
+        color: $white;
+    }
+}

@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Admin Article |
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin') }}
+{% endblock %}
+
+{% block body %}
+
+    <section class="container-fluid mt-4">
+        <div>
+            <h1 class="title text-center">Articles</h1>
+        </div>
+        <div class="text-center mt-4 mb-4">
+            <a href="{{path('admin.article.new')}}" class="btn btn-secondary">Add a new one</a>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                {% include "Components/Article/_filter.html.twig" %}
+            </div>
+            <div class="col-md-9">
+                {% include "Components/Article/_articles.html.twig" with {articles: articles, admin: true} only %}
+            </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,15 @@
+<div class="filter-card">
+    {{ form_start(form, {'attr': {'class': 'card form-filter p-3 js-filter-form' }}) }}
+        <div class="loader">
+            <div class="js-loading spinner-grow text-primary float-right" role="status" aria-hidden="true" style="display: none">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    {{form_row(form.query)}}
+    <h3 class="mb-2">Tags</h3>
+    {{form_row(form.tags)}}
+
+    <button class="btn btn-primary btn-filter-form w-100" type="submit">Search</button>
+
+{{ form_end(form) }}
+</div>

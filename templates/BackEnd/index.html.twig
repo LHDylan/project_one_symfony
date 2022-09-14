@@ -1,0 +1,62 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Admin Dashboard |
+	{{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('admin') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-4">
+		<div>
+			<h1 class="title text-center">Dashboard</h1>
+		</div>
+		<div class="row mt-4">
+			<div class="col-md-4">
+				<div class="blog-card">
+					<div class="blog-card-image">
+						<img src="https://fakeimg.pl/200x100" alt="">
+					</div>
+					<div class="blog-card-content">
+						<h2 class="blog-card-content-header">Tags</h2>
+						<p>List of tags</p>
+                        <a href="{{path('app_tag_index')}}" class="btn btn-secondary">Go to <i class="glyphicon glyphicon-log-in"></i></a>
+					</div>
+				</div>
+			</div>
+            <div class="col-md-4">
+				<div class="blog-card">
+					<div class="blog-card-image">
+						<img src="https://fakeimg.pl/200x100" alt="">
+					</div>
+					<div class="blog-card-content">
+						<h2 class="blog-card-content-header">Articles</h2>
+						<p>List of Articles</p>
+                        <a href="{{path('admin.article')}}" class="btn btn-secondary">Go to <i class="glyphicon glyphicon-log-in"></i></a>
+					</div>
+				</div>
+			</div>
+            <div class="col-md-4">
+				<div class="blog-card">
+					<div class="blog-card-image">
+						<img src="https://fakeimg.pl/200x100" alt="">
+					</div>
+					<div class="blog-card-content">
+						<h2 class="blog-card-content-header">Users</h2>
+						<p>Users registered</p>
+                        <a href="{{path('app_user_index')}}" class="btn btn-secondary">Go to <i class="glyphicon glyphicon-log-in"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

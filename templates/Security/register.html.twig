@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Sign up | 
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <section class="container-fluid mt-4">
+        <div class="card p-3 w-50 mx-auto">
+            <h1 class="title text-center">Sign up</h1>
+            {{ form_start(form)}}
+
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.fName) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.lName) }}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form_row(form.password) }}
+                    </div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="col-md-12">
+                            {{ form_row(form.roles) }}
+                        </div>
+                    {% endif %}
+                    <div class="col-md-12">
+                        {{ form_row(form.address) }}
+                    </div>
+                    <div class="col-md-9">
+                        {{ form_row(form.city) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.zipCode) }}
+                    </div>
+                </div>
+
+                <div class="d-grip gaap-2 d-md-block mt-4 text-center">
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </div>
+                {{ form_row(form._token) }}
+            {{ form_end(form, {render_rest: false})}}
+        </div>
+    </section>
+{% endblock %}
