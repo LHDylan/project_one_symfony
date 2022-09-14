@@ -9,3 +9,4 @@ App\Entity\Article:
     user: "@userAdmin"
     tags: "<randomElements(@tag_{1..10})>"
     createdAt: "<generateDate()>"
+    active: true
